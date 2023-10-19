@@ -1,5 +1,6 @@
 using EntityFrameworkCore.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Data;
 
@@ -11,7 +12,12 @@ public class FootballLeagueDbContext : DbContext
     // Adding connection string here is just for demo purposes
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=FootballLeague_EfCore.db");
+        // EnableSensitiveDataLogging and EnableDetailedErrors is for demo purposes
+        // Do not use them in production
+        optionsBuilder.UseSqlite("Data Source=FootballLeague_EfCore.db")
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
