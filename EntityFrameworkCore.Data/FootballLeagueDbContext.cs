@@ -6,6 +6,15 @@ namespace EntityFrameworkCore.Data;
 
 public class FootballLeagueDbContext : DbContext
 {
+    public FootballLeagueDbContext()
+    {
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        DbPath = Path.Combine(path, "FootballLeague_EfCore.db");
+    }
+
+    private string DbPath { get; set; }
+
     public DbSet<Team> Teams { get; set; }
     public DbSet<Coach> Coaches { get; set; }
 
@@ -14,7 +23,7 @@ public class FootballLeagueDbContext : DbContext
     {
         // EnableSensitiveDataLogging and EnableDetailedErrors is for demo purposes
         // Do not use them in production
-        optionsBuilder.UseSqlite("Data Source=FootballLeague_EfCore.db")
+        optionsBuilder.UseSqlite($"Data Source={DbPath}")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
