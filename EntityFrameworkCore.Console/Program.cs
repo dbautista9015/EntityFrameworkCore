@@ -1,41 +1,77 @@
-﻿using EntityFrameworkCore.Data;
+﻿using System.Net.Mime;
+using EntityFrameworkCore.Data;
 using Microsoft.EntityFrameworkCore;
 
 // First we need an instance of context
 using var context = new FootballLeagueDbContext();
 
 // Select all teams
-// GetAllTeams();
+// await GetAllTeams()
 
-// Selecting a single record - First one in the list
-// var teamOne = await context.Coaches.FirstAsync();
-// var teamOne = await context.Coaches.FirstOrDefaultAsync();
+// Select one team
+// await GetOneTeam()
 
-// Selecting a single record - First one in the list that meets a condition
-// var teamTwo = await context.Teams.FirstAsync(team => team.TeamId == 1);
-// var teamTwo = await context.Teams.FirstOrDefaultAsync(team => team.TeamId == 1);
-
-// Selecting a single record - Only one record should be returned
-// var teamThree = await context.Teams.SingleAsync();
-// var teamThree = await context.Teams.SingleAsync(team => team.TeamId == 3);
-// var teamFour = await context.Teams.SingleOrDefaultAsync(team => team.TeamId == 3);
-
-// Selecting based on ID
-var teamBasedOnId = await context.Teams.FindAsync(3);
-if (teamBasedOnId is not null)
+async Task GetAllTeams()
 {
-    Console.WriteLine(teamBasedOnId.Name);
-}
-
-
-void GetAllTeams()
-{
-    // SELECT * FROM TEAMS
-    var teams = context.Teams.ToList();
+    // SELECT * FROM Teams
+    var teams = await context.Teams.ToListAsync();
 
     foreach (var t in teams)
     {
         Console.WriteLine(t.Name);
     }
+}
+
+async Task GetOneTeam()
+{
+    var teamFirst = await context.Coaches.FindAsync();
+    if (teamFirst is not null)
+    {
+        Console.WriteLine(teamFirst.Name);
+    }
     
+    var teamFirstOrDefault = await context.Coaches.FirstOrDefaultAsync();
+    if (teamFirstOrDefault is not null)
+    {
+        Console.WriteLine(teamFirstOrDefault.Name);
+    }
+    
+    // Selecting a single record - First one in the list that meets a condition
+    var teamFirstWithCondition = await context.Teams.FirstAsync(team => team.TeamId == 1);
+    if (teamFirstWithCondition is not null)
+    {
+        Console.WriteLine(teamFirstWithCondition.Name);
+    }
+
+    var teamFirstOrDefaultWithCondition = await context.Teams.FirstOrDefaultAsync(team => team.TeamId == 1);
+    if (teamFirstOrDefaultWithCondition is not null)
+    {
+        Console.WriteLine(teamFirstOrDefaultWithCondition.Name);
+    }
+    
+    // Selecting a single record - Only one record should be returned, or an exception will be thrown
+    var teamSingle = await context.Teams.SingleAsync();
+    if (teamSingle is not null)
+    {
+        Console.WriteLine(teamSingle.Name);
+    }
+
+    var teamSingleWithCondition = await context.Teams.SingleAsync(team => team.TeamId == 2);
+    if (teamSingleWithCondition is not null)
+    {
+        Console.WriteLine(teamSingleWithCondition.Name);
+    }
+
+    var singleOrDefault = await context.Teams.SingleOrDefaultAsync(team => team.TeamId == 2);
+    if (singleOrDefault is not null)
+    {
+        Console.WriteLine(singleOrDefault.Name);
+    }
+    
+    // Selecting based on Primary Key Id value
+    var teamBasedOnId = await context.Teams.FindAsync(3);
+    if (teamBasedOnId is not null)
+    {
+        Console.WriteLine(teamBasedOnId.Name);
+    }
 }
