@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using EntityFrameworkCore.Data;
+﻿using EntityFrameworkCore.Data;
 using Microsoft.EntityFrameworkCore;
 
 // First we need an instance of context
