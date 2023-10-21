@@ -11,6 +11,21 @@ using var context = new FootballLeagueDbContext();
 // Select one team
 // await GetOneTeam()
 
+// Select all record that meet a condition
+await GetFilteredTeams();
+
+async Task GetFilteredTeams()
+{
+    Console.WriteLine("Enter Desired Team");
+    var desiredTeam = Console.ReadLine();
+    
+    var teamsFiltered = await context.Teams.Where(q => q.Name == desiredTeam).ToListAsync();
+    foreach (var item in teamsFiltered)
+    {
+        Console.WriteLine(item.Name);
+    }
+}
+
 async Task GetAllTeams()
 {
     // SELECT * FROM Teams
