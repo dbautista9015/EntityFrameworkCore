@@ -6,7 +6,30 @@ using var context = new FootballLeagueDbContext();
 
 // Select all teams
 // await GetAllTeams()
-await GetAllTeamsQuerySyntax();
+// await GetAllTeamsQuerySyntax();
+
+// Select one team
+// await GetOneTeam()
+
+// Select all record that meet a condition
+// await GetFilteredTeams();
+
+// Aggregate Methods
+// Count
+var numberOfTeams = await context.Teams.CountAsync();
+Console.WriteLine($"Number of Teams: {numberOfTeams}");
+
+var numberOfTeamsWithCondition = await context.Teams.CountAsync(q => q.TeamId == 1);
+Console.WriteLine($"Number of Teams with condition aboce {numberOfTeamsWithCondition}");
+
+// Max
+var maxTeams = await context.Teams.MaxAsync(q => q.TeamId);
+// Min
+var minTeams = await context.Teams.MinAsync(q => q.TeamId);
+// Average
+var avgTeams = await context.Teams.AverageAsync(q => q.TeamId);
+// Sum
+var sumTeams = await context.Teams.SumAsync(q => q.TeamId);
 
 async Task GetAllTeamsQuerySyntax()
 {
@@ -23,11 +46,6 @@ async Task GetAllTeamsQuerySyntax()
     }
 }
 
-// Select one team
-// await GetOneTeam()
-
-// Select all record that meet a condition
-// await GetFilteredTeams();
 
 async Task GetFilteredTeams()
 {
