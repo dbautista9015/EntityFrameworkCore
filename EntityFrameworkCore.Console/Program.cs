@@ -17,6 +17,27 @@ using var context = new FootballLeagueDbContext();
 // Aggregate Methods
 // await AggregateMethods();
 
+// Grouping and Aggregating
+// GroupByMethod();
+
+void GroupByMethod()
+{
+    var groupedTeams = context.Teams
+        // .Where(q => q.Name == '') Translates to a WHERE clause
+        .GroupBy(q => q.CreatedDate.Date);
+    // .Where()... Translates to a HAVING clause
+    foreach (var group in groupedTeams)
+    {
+        Console.WriteLine(group.Key);
+        Console.WriteLine(group.Sum(q => q.TeamId));
+    
+        foreach (var team in group)
+        {
+            Console.WriteLine(team.Name);
+        }
+    }
+}
+
 async Task AggregateMethods()
 {
     var numberOfTeams = await context.Teams.CountAsync();
@@ -24,7 +45,7 @@ async Task AggregateMethods()
 
     // Count
     var numberOfTeamsWithCondition = await context.Teams.CountAsync(q => q.TeamId == 1);
-    Console.WriteLine($"Number of Teams with condition aboce {numberOfTeamsWithCondition}");
+    Console.WriteLine($"Number of Teams with condition above {numberOfTeamsWithCondition}");
 
     // Max
     var maxTeams = await context.Teams.MaxAsync(q => q.TeamId);
