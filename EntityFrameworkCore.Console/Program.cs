@@ -15,21 +15,26 @@ using var context = new FootballLeagueDbContext();
 // await GetFilteredTeams();
 
 // Aggregate Methods
-// Count
-var numberOfTeams = await context.Teams.CountAsync();
-Console.WriteLine($"Number of Teams: {numberOfTeams}");
+// await AggregateMethods();
 
-var numberOfTeamsWithCondition = await context.Teams.CountAsync(q => q.TeamId == 1);
-Console.WriteLine($"Number of Teams with condition aboce {numberOfTeamsWithCondition}");
+async Task AggregateMethods()
+{
+    var numberOfTeams = await context.Teams.CountAsync();
+    Console.WriteLine($"Number of Teams: {numberOfTeams}");
 
-// Max
-var maxTeams = await context.Teams.MaxAsync(q => q.TeamId);
-// Min
-var minTeams = await context.Teams.MinAsync(q => q.TeamId);
-// Average
-var avgTeams = await context.Teams.AverageAsync(q => q.TeamId);
-// Sum
-var sumTeams = await context.Teams.SumAsync(q => q.TeamId);
+    // Count
+    var numberOfTeamsWithCondition = await context.Teams.CountAsync(q => q.TeamId == 1);
+    Console.WriteLine($"Number of Teams with condition aboce {numberOfTeamsWithCondition}");
+
+    // Max
+    var maxTeams = await context.Teams.MaxAsync(q => q.TeamId);
+    // Min
+    var minTeams = await context.Teams.MinAsync(q => q.TeamId);
+    // Average
+    var avgTeams = await context.Teams.AverageAsync(q => q.TeamId);
+    // Sum
+    var sumTeams = await context.Teams.SumAsync(q => q.TeamId);
+}
 
 async Task GetAllTeamsQuerySyntax()
 {
