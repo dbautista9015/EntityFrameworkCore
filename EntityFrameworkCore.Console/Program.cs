@@ -20,6 +20,40 @@ using var context = new FootballLeagueDbContext();
 // Grouping and Aggregating
 // GroupByMethod();
 
+// Ordering
+var orderedTeams = await context.Teams
+    .OrderBy(q => q.Name)
+    .ToListAsync();
+
+foreach (var item in orderedTeams)
+{
+    Console.WriteLine(item.Name);
+}
+
+var descOrderedTeams = await context.Teams
+    .OrderByDescending(q => q.Name)
+    .ToListAsync();
+
+foreach (var item in descOrderedTeams)
+{
+    Console.WriteLine(item.Name);
+}
+
+// Getting the record with a maximum value
+var maxByDescendingOrder = await context.Teams
+    .OrderByDescending(q => q.TeamId)
+    .FirstOrDefaultAsync();
+
+// Alternative to the one above
+var maxBy = context.Teams.MaxBy(q => q.TeamId);
+
+var minByDescendingOrder = await context.Teams
+    .OrderByDescending(q => q.TeamId)
+    .FirstOrDefaultAsync();
+
+// Alternative to the one above
+var minBy = context.Teams.MinBy(q => q.TeamId);
+
 void GroupByMethod()
 {
     var groupedTeams = context.Teams
