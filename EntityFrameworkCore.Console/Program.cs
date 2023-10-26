@@ -20,39 +20,46 @@ using var context = new FootballLeagueDbContext();
 // Grouping and Aggregating
 // GroupByMethod();
 
+//Ordering
+// await OrderByMethods();
+
+async Task OrderByMethods()
+{
 // Ordering
-var orderedTeams = await context.Teams
-    .OrderBy(q => q.Name)
-    .ToListAsync();
+    var orderedTeams = await context.Teams
+        .OrderBy(q => q.Name)
+        .ToListAsync();
 
-foreach (var item in orderedTeams)
-{
-    Console.WriteLine(item.Name);
-}
+    foreach (var item in orderedTeams)
+    {
+        Console.WriteLine(item.Name);
+    }
 
-var descOrderedTeams = await context.Teams
-    .OrderByDescending(q => q.Name)
-    .ToListAsync();
+    var descOrderedTeams = await context.Teams
+        .OrderByDescending(q => q.Name)
+        .ToListAsync();
 
-foreach (var item in descOrderedTeams)
-{
-    Console.WriteLine(item.Name);
-}
+    foreach (var item in descOrderedTeams)
+    {
+        Console.WriteLine(item.Name);
+    }
 
 // Getting the record with a maximum value
-var maxByDescendingOrder = await context.Teams
-    .OrderByDescending(q => q.TeamId)
-    .FirstOrDefaultAsync();
+    var maxByDescendingOrder = await context.Teams
+        .OrderByDescending(q => q.TeamId)
+        .FirstOrDefaultAsync();
 
 // Alternative to the one above
-var maxBy = context.Teams.MaxBy(q => q.TeamId);
+    var maxBy = context.Teams.MaxBy(q => q.TeamId);
 
-var minByDescendingOrder = await context.Teams
-    .OrderByDescending(q => q.TeamId)
-    .FirstOrDefaultAsync();
+    var minByDescendingOrder = await context.Teams
+        .OrderByDescending(q => q.TeamId)
+        .FirstOrDefaultAsync();
 
 // Alternative to the one above
-var minBy = context.Teams.MinBy(q => q.TeamId);
+    var minBy = context.Teams.MinBy(q => q.TeamId);
+    
+}
 
 void GroupByMethod()
 {
@@ -97,15 +104,14 @@ async Task GetAllTeamsQuerySyntax()
     var searchTerm = Console.ReadLine();
 
     var teams = await (from team in context.Teams
-                                where EF.Functions.Like(team.Name, $"%{searchTerm}%")
-                                select team)
-                                .ToListAsync();
+            where EF.Functions.Like(team.Name, $"%{searchTerm}%")
+            select team)
+        .ToListAsync();
     foreach (var t in teams)
     {
         Console.WriteLine(t.Name);
     }
 }
-
 
 async Task GetFilteredTeams()
 {
