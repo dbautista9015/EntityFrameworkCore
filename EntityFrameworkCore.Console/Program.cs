@@ -23,6 +23,26 @@ using var context = new FootballLeagueDbContext();
 //Ordering
 // await OrderByMethods();
 
+// Skip and Take - Great for Paging
+var recordCount = 3;
+var page = 0;
+var next = true;
+
+while (next)
+{
+    var teams = await context.Teams.Skip(page * recordCount).Take(recordCount).ToListAsync();
+
+    foreach (var team in teams)
+    {
+        Console.WriteLine(team.Name);
+    }
+    Console.WriteLine("Enter 'true' for the next set of records, 'false' to exit");
+    next = Convert.ToBoolean(Console.ReadLine());
+
+    if (!next) break;
+    page += 1;
+}
+
 async Task OrderByMethods()
 {
 // Ordering
@@ -65,8 +85,9 @@ void GroupByMethod()
 {
     var groupedTeams = context.Teams
         // .Where(q => q.Name == '') Translates to a WHERE clause
-        .GroupBy(q => q.CreatedDate.Date);
-    // .Where()... Translates to a HAVING clause
+        .GroupBy(q => q.CreatedDate.Date)
+        // .Where()... Translates to a HAVING clause
+        .ToList();
     foreach (var group in groupedTeams)
     {
         Console.WriteLine(group.Key);
