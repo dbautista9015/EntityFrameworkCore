@@ -21,7 +21,7 @@ public class FootballLeagueDbContext : DbContext
             new Team
             {
                 TeamId = 1,
-                Name = "Tivoli Gardens FC",
+                Name = "Tivoli Gardens F.C.",
                 CreatedDate = DateTimeOffset.UtcNow.DateTime,
             },
             new Team
